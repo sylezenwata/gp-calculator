@@ -1,0 +1,5 @@
+node_modules
+bundle/*
+!bundle/icons
+!bundle/manifest.json
+package-lock.json

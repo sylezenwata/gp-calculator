@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP Calculator</title>
+    <meta name="description" content="Dynamic grade point(GP) calculator">
+    <meta name="author" content="Sylvester Ezenwata">
+    <link rel="apple-touch-icon" sizes="57x57" href="./icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#efefef">
+</head>
+
+<body style="position: fixed;">
+    <div id="root">
+        <div class="flex justify-content-center align-items-center p-20 page-loader" data-loader></div>
+        <header>
+            <div class="doc-width p-tb-10 p-lr-10">
+                <h1 class="text-center p-tb-10">GP CALCULATOR</h1>
+            </div>
+        </header>
+        <section class="p-tb-20 main-section">
+            <div class="doc-width p-lr-10">
+                <div class="p-10 flex justify-content-end m-t-10">
+                    <button class="p-10 m-r-10" data-clear-courses>Clear Courses</button>
+                    <button class="p-10" data-add-courses>Add Courses</button>
+                </div>
+                <form data-calculator-form>
+                    <div class="p-10">
+                        <h3>Courses</h3>
+                        <div class="flex flex-wrap" data-courses-container></div>
+                    </div>
+                    <div class="selector m-t-20">
+                        <div class="selector-elems">
+                            <textarea class="p-10" cols="30" rows="10" placeholder="Paste result rows here" data-valid required></textarea>
+                            <div class="flex flex-wrap align-items-center m-t-20">
+                                <button type="submit" class="p-10 m-r-10">Calculate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-t-10 flex justify-content-center">
+                        <div class="p-10">
+                            <p class="text-center" data-show-calculation>Result will appear here...</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <footer>
+            <div class="text-center doc-width p-lr-10">&copy;&nbsp;<script>
+                    document.write(new Date().getFullYear())
+                </script> <a href="mailto:xthareal@gmail.com">Sylvester Ezenwata</a> Software License & Usage.</div>
+        </footer>
+    </div>
+    <template data-course-template>
+        <div class="course" data-course>
+            <input type="text" placeholder="course" required>
+            <input type="text" placeholder="unit" pattern="[1-9]{1}" title="Only a digit is allowed" required>
+            <input type="text" placeholder="pass" pattern="[0-9]{2}" title="Only 2 digits are allowed" required>
+        </div>
+    </template>
+    <template data-dialogue-template>
+        <div class="modal dark" data-dialogue>
+            <div class="modal-content">
+                <div class="modal-body p-10">
+                    <form data-dialogue-form>
+                        <div class="p-tb-10 p-lr-10">
+                            <div data-dialogue-info></div>
+                            <input type="number" class="m-t-10 p-5" pattern="[1-9]{1,}" title="Only digits are allowed"
+                                data-dialogue-input required>
+                        </div>
+                        <div class="flex align-items-center justify-content-end flex-wrap m-tb-10 p-lr-10">
+                            <button type="button" class="m-r-10" data-dialogue-cancel>Cancel</button>
+                            <button type="submit" data-dialogue-ok>Ok</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+</body>
+
+</html>

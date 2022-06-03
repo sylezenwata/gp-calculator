@@ -1,0 +1,288 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+
+body {
+	background-color: #fff;
+	overflow-y: scroll;
+}
+
+#root {
+	background-color: #fff;
+	min-height: 100vh;
+}
+
+.doc-width {
+	max-width: 1025px;
+	margin: 0 auto;
+}
+
+.no-overflow {
+	position: fixed !important;
+	width: 100% !important;
+}
+
+/* flex */
+.flex {
+	display: flex;
+}
+.flex-col {
+	flex-direction: course;
+}
+.flex-wrap {
+	flex-wrap: wrap;
+}
+.justify-content-center {
+	justify-content: center;
+}
+.justify-content-end {
+	justify-content: flex-end;
+}
+.justify-content-around {
+	justify-content: space-around;
+}
+.justify-content-between {
+	justify-content: space-between;
+}
+.align-items-center {
+	align-items: center;
+}
+.align-items-end {
+	align-items: flex-end;
+}
+
+/* padding */
+.p-0 {
+	padding: 0;
+}
+.p-5 {
+	padding: 5px;
+}
+.p-10 {
+	padding: 10px;
+}
+.p-20 {
+	padding: 20px;
+}
+.p-tb-10 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.p-tb-20 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.p-lr-10 {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* margin */
+.m-0 {
+	margin: 0;
+}
+.m-tb-10 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.m-t-10 {
+	margin-top: 10px;
+}
+.m-t-20 {
+	margin-top: 20px;
+}
+.m-r-10 {
+	margin-right: 10px;
+}
+.m-r-5 {
+	margin-right: 5px;
+}
+
+/* text */
+.text-center {
+	text-align: center;
+}
+
+/* extras */
+button {
+	cursor: pointer;
+}
+
+/* header */
+header {
+	box-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+	position: sticky;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1;
+	background-color: #ffd;
+}
+
+.main-section {
+	padding-bottom: 30px;
+}
+
+/* course */
+.course {
+	padding: 5px;
+	border-radius: 5px;
+	background-color: #efefef;
+	border: 1px solid #ccc;
+	max-width: 155px;
+	width: fit-content;
+	margin: 10px 10px 0 0;
+}
+.course input {
+	width: 25%;
+	padding: 0 2px;
+	text-transform: uppercase;
+}
+.course input:first-child {
+	width: calc(100% / 2 - 8px);
+}
+.course input::placeholder {
+	font-size: 7px;
+}
+
+button {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+/* selector */
+.selector {
+	padding: 20px 10px;
+	width: 100%;
+}
+.form-wrap {
+	margin: 0 auto;
+}
+.selector-elems textarea {
+	width: 100%;
+	font-size: 16px;
+}
+
+.selector-elems button {
+	padding: 10px 35px;
+	font-weight: 600;
+}
+
+.selector-elems .flex.align-items-center {
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+}
+
+footer {
+	padding: 20px 0;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 16px;
+}
+
+th {
+	padding: 5px;
+}
+
+td,
+th {
+	border: 1px solid;
+}
+
+.page-loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 100;
+	background-color: #fff;
+}
+
+/* modal */
+.modal {
+	height: 100%;
+	left: 0;
+	overflow-y: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 50;
+	/* display: none; */
+}
+.trans {
+	background-color: transparent;
+}
+.dark {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+	--width: 318px;
+	--height: 200px;
+    --c-height: 130px;
+	width: var(--width);
+	margin: calc(((100vh - (var(--c-height) + 2px)) / 2) - 60px) auto calc(((100vh - (var(--c-height) + 2px)) / 2) + 60px);
+	max-width: calc(100% - 1.87rem);
+	position: relative;
+	background-color: #fff;
+	border-radius: 8px;
+	border: 1px solid;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
+	animation: modal 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.modal-content button {
+	padding: 5px 20px;
+}
+.modal-content input {
+	width: 100%;
+	font-size: 16px;
+}
+.modal-head {
+	position: relative;
+	background-color: var(--app-color);
+	color: #fff;
+}
+.modal-head .title {
+	max-width: calc(100% - 35px);
+	box-sizing: border-box;
+}
+.modal-head .close {
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 1.8rem;
+	color: #fff;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+	box-sizing: border-box;
+	width: 35px;
+	height: 100%;
+	cursor: pointer;
+}
+.close:hover,
+.close:active {
+	opacity: 0.8;
+}
+
+@keyframes modal {
+	0% {
+		transform: scale(0.85);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@media (max-width: 420px) {
+    header h1 {
+        font-size: 22px;
+    }
+}
