@@ -172,7 +172,7 @@ button {
 	font-weight: 600;
 }
 
-.selector-elems .flex.align-items-center {
+.--flex {
 	flex-direction: row-reverse;
 	justify-content: flex-end;
 }

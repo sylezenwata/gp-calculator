@@ -167,7 +167,7 @@ function calculator(data, courses) {
 		Number(totalGrade / totalUnits).toFixed(2),
 	]
 		.map((e) => e.toString())
-		.map((e) => (e === "0" ? " " : e));
+    .map((e, i) => (3 !== i && e === "0" ? " " : e));
 }
 
 // var to monitor when there is a change in input course
