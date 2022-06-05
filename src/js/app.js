@@ -130,11 +130,19 @@ function calcGrade(score, unit, passMark) {
  * @returns {Array}
  */
 function calculator(data, courses) {
-	// get all units
-	const units = [...courses].map((e) => e[1]);
+  // check if there is deferred courses
+  const hasDeferredCourses = data.some(e => e === '-');
 
+	// get all units
+	const units = [...courses].map((e,i) => '-' !== data[i] ? e[1] : null).filter(e => null !== e);
+  
 	// get all pass mark
-	const passMarks = [...courses].map((e) => e[2]);
+	const passMarks = [...courses].map((e,i) => '-' !== data[i] ? e[2] : null).filter(e => null !== e);
+
+  // update data
+  if (hasDeferredCourses) {
+    data = [...data].filter(e => '-' !== e);
+  }
 
 	// get total grade
 	const totalGrade = data
@@ -167,7 +175,7 @@ function calculator(data, courses) {
 		Number(totalGrade / totalUnits).toFixed(2),
 	]
 		.map((e) => e.toString())
-    .map((e, i) => (3 !== i && e === "0" ? " " : e));
+		.map((e, i) => (3 !== i && e === "0" ? " " : e));
 }
 
 // var to monitor when there is a change in input course
@@ -211,12 +219,17 @@ function calculate(e) {
 
 	// organize data
 	let data = results.value
-    .trim()
+		.trim()
 		.split(/(\t|\n)/)
 		.filter((e) => e !== "\t" && e !== "\n")
 		.reduce((d, i) => {
-			if (/\d+/.test(i)) {
+			if (/^\d+[a-zA-Z]+$/.test(i)) {
+				i = i.replace(/[a-zA-Z]+/g, "");
+			}
+			if (/^\d+$/.test(i.trim())) {
 				d.push(i);
+			} else if ("-" === i.trim()) {
+				d.push("-");
 			} else {
 				d.push("0");
 			}
@@ -230,7 +243,7 @@ function calculate(e) {
 	// validate if data equals courses
 	if (data.some((arr) => arr.length !== courses.length)) {
 		return dialogue(
-			"Oops, the number courses of each result row must match existing number course(s).",
+			"Oops, invalid inputed result format. Each score is matched to each existing courses accordingly.",
 			"alert",
 			(...args) => {
 				closeDialogue(`[data-dialogue="${args[1]}"]`);
@@ -245,10 +258,10 @@ function calculate(e) {
 	});
 
 	// show result
-  let count = 1;
+	let count = 1;
 	let tabulateResult = `<table><thead><tr><th>No.</th><th>Total Units</th><th>Units Passed</th><th>Carryover Units</th><th>GP</th><th>GPA</th></tr></thead><tbody>`;
 	for (let eachCalculatedResult of calculatedResult) {
-    eachCalculatedResult = [count].concat(eachCalculatedResult);
+		eachCalculatedResult = [count].concat(eachCalculatedResult);
 		tabulateResult += eachCalculatedResult.reduce((str, item, index) => {
 			if (index === 0) {
 				str = `<tr>`;
@@ -259,7 +272,7 @@ function calculate(e) {
 			}
 			return str;
 		}, ``);
-    count += 1;
+		count += 1;
 	}
 	tabulateResult += `</tbody></table>`;
 	$("[data-show-calculation]").innerHTML = tabulateResult;

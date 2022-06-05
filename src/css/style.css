@@ -16,7 +16,7 @@ body {
 }
 
 .doc-width {
-	max-width: 1025px;
+	max-width: 925px;
 	margin: 0 auto;
 }
 
@@ -92,6 +92,9 @@ body {
 .m-t-10 {
 	margin-top: 10px;
 }
+.m-t-5 {
+	margin-top: 5px;
+}
 .m-t-20 {
 	margin-top: 20px;
 }
@@ -120,7 +123,7 @@ header {
 	left: 0;
 	width: 100%;
 	z-index: 1;
-	background-color: #ffd;
+	background-color: #fff;
 }
 
 .main-section {
@@ -270,6 +273,16 @@ th {
 .close:hover,
 .close:active {
 	opacity: 0.8;
+}
+
+.--warning {
+	background-color: #ffd;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	line-height: 1.1;
+}
+.--warning ul li {
+	margin-top: 5px;
 }
 
 @keyframes modal {

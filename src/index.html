@@ -37,6 +37,14 @@
         </header>
         <section class="p-tb-20 main-section">
             <div class="doc-width p-lr-10">
+                <div class="m-t-10 p-10 --warning">
+                    <p><strong style="font-size: 16px;">Note: </strong><span>For accuracy and performant calculation, use the following format;</span></p>
+                    <ul class="m-t-10" style="padding-left: 20px;">
+                        <li>Do not leave any column empty</li>
+                        <li>Use hyphen (-) in place of a score under each course which the student does/did not offer</li>
+                        <li>Use zero (0) or AB (ie. absent) in place of a score under each course the student failed.</li>
+                    </ul>
+                </div>
                 <div class="p-10 flex justify-content-end m-t-10">
                     <button class="p-10 m-r-10" data-clear-courses>Clear Courses</button>
                     <button class="p-10" data-add-courses>Add Courses</button>
@@ -48,7 +56,7 @@
                     </div>
                     <div class="selector m-t-20">
                         <div class="selector-elems">
-                            <textarea class="p-10" cols="30" rows="10" placeholder="Paste result rows here" data-valid required></textarea>
+                            <textarea class="p-10" cols="30" rows="10" placeholder="Input/paste result rows here" data-valid required></textarea>
                             <div class="flex flex-wrap align-items-center m-t-20 --flex">
                                 <button type="submit" class="p-10 m-r-10">Calculate</button>
                             </div>
