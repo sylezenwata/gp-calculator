@@ -75,10 +75,13 @@ body {
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
-
 .p-lr-10 {
 	padding-left: 10px;
 	padding-right: 10px;
+}
+.p-lr-20 {
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 /* margin */
@@ -91,6 +94,9 @@ body {
 }
 .m-t-10 {
 	margin-top: 10px;
+}
+.m-b-10 {
+	margin-bottom: 10px;
 }
 .m-t-5 {
 	margin-top: 5px;
@@ -110,10 +116,20 @@ body {
 	text-align: center;
 }
 
-/* extras */
+input,
+textarea,
+button {
+	border: 1px solid #ccc;
+}
+
 button {
 	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	background-color: #efefef;
 }
+
+/* extras */
 
 /* header */
 header {
@@ -152,14 +168,9 @@ header {
 	font-size: 7px;
 }
 
-button {
-	font-size: 12px;
-	font-weight: 600;
-}
-
 /* selector */
 .selector {
-	padding: 20px 10px;
+	padding: 20px 0;
 	width: 100%;
 }
 .form-wrap {
@@ -235,7 +246,7 @@ th {
 	position: relative;
 	background-color: #fff;
 	border-radius: 8px;
-	border: 1px solid;
+	border: 1px solid #ccc;
 	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
 	animation: modal 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }

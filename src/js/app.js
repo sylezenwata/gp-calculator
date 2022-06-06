@@ -16,13 +16,11 @@ function domCoursesRefined() {
 	const courses = $("[data-course]", true);
 	return [...courses].reduce((_arr, _item) => {
 		let [_course, _unit, _passMark] = _item.children;
-		_unit = _unit.value;
-		_passMark = _passMark.value;
-		_arr.push([
-			_course.value,
-			/\d/.test(_unit) ? parseInt(_unit) : _unit,
-			/\d/.test(_passMark) ? parseInt(_passMark) : _passMark,
-		]);
+		_unit = /\d/.test(_unit.value) ? parseInt(_unit.value) : _unit.value;
+		_passMark = /\d/.test(_passMark.value)
+			? parseInt(_passMark.value)
+			: _passMark.value;
+		_arr.push([_course.value, _unit, _passMark]);
 		return _arr;
 	}, []);
 }
@@ -59,21 +57,26 @@ if (storedCourses && storedCourses.length > 0) {
 	generateCourses(0);
 }
 
+/**
+ * function to handle when dialogue is cancelled
+ * can also be used to handle when dialogue of type "alert" is submitted
+ * @param  {...any} args
+ */
+const dialogueCancelCallBack = (...args) => {
+	closeDialogue(`[data-dialogue="${args[0]}"]`);
+};
+
 // add courses button
 on("click", "[data-add-courses]", () => {
 	dialogue(
 		"How many courses do you want to add?",
 		"prompt",
 		(...args) => {
-			const size = [...args[0].target.elements].filter((e) =>
-				e.hasAttribute("data-dialogue-input")
-			)[0].value;
+			const size = args[0];
 			generateCourses(size);
 			closeDialogue(`[data-dialogue="${args[1]}"]`);
 		},
-		(...args) => {
-			closeDialogue(`[data-dialogue="${args[1]}"]`);
-		}
+		dialogueCancelCallBack
 	);
 });
 
@@ -86,11 +89,9 @@ on("click", "[data-clear-courses]", () => {
 			(...args) => {
 				deleteLocalItem("courses");
 				$("[data-courses-container]").innerHTML = "";
-				closeDialogue(`[data-dialogue="${args[1]}"]`);
+				closeDialogue(`[data-dialogue="${args[0]}"]`);
 			},
-			(...args) => {
-				closeDialogue(`[data-dialogue="${args[1]}"]`);
-			}
+			dialogueCancelCallBack
 		);
 	}
 });
@@ -103,7 +104,7 @@ on("click", "[data-clear-courses]", () => {
  * @returns
  */
 function calcGrade(score, unit, passMark) {
-	if (score <= 39 || score < passMark) {
+	if (score < 40 || score < passMark) {
 		return 0 * unit;
 	}
 	if (score <= 44) {
@@ -130,19 +131,23 @@ function calcGrade(score, unit, passMark) {
  * @returns {Array}
  */
 function calculator(data, courses) {
-  // check if there is deferred courses
-  const hasDeferredCourses = data.some(e => e === '-');
+	// check if there is deferred courses
+	const hasDeferredCourses = data.some((e) => e === "-");
 
 	// get all units
-	const units = [...courses].map((e,i) => '-' !== data[i] ? e[1] : null).filter(e => null !== e);
-  
-	// get all pass mark
-	const passMarks = [...courses].map((e,i) => '-' !== data[i] ? e[2] : null).filter(e => null !== e);
+	const units = [...courses]
+		.map((e, i) => ("-" !== data[i] ? e[1] : null))
+		.filter((e) => null !== e);
 
-  // update data
-  if (hasDeferredCourses) {
-    data = [...data].filter(e => '-' !== e);
-  }
+	// get all pass mark
+	const passMarks = [...courses]
+		.map((e, i) => ("-" !== data[i] ? e[2] : null))
+		.filter((e) => null !== e);
+
+	// update data
+	if (hasDeferredCourses) {
+		data = [...data].filter((e) => "-" !== e);
+	}
 
 	// get total grade
 	const totalGrade = data
@@ -173,9 +178,8 @@ function calculator(data, courses) {
 		failedUnits,
 		totalGrade,
 		Number(totalGrade / totalUnits).toFixed(2),
-	]
-		.map((e) => e.toString())
-		.map((e, i) => (3 !== i && e === "0" ? " " : e));
+	].map((e) => e.toString());
+	// .map((e, i) => (3 !== i && e === "0" ? " " : e));
 }
 
 // var to monitor when there is a change in input course
@@ -190,7 +194,8 @@ function calculate(e) {
 	e.preventDefault();
 
 	// clear result element
-	$("[data-show-calculation]").textContent = "Result will appear here...";
+	$("[data-show-calculation]").textContent =
+		"Calculated result will appear here...";
 
 	// get courses
 	const courses = domCoursesRefined();
@@ -200,9 +205,7 @@ function calculate(e) {
 		return dialogue(
 			"Oops, please add course(s) to continue.",
 			"alert",
-			(...args) => {
-				closeDialogue(`[data-dialogue="${args[1]}"]`);
-			}
+			dialogueCancelCallBack
 		);
 	}
 
@@ -245,9 +248,7 @@ function calculate(e) {
 		return dialogue(
 			"Oops, invalid inputed result format. Each score is matched to each existing courses accordingly.",
 			"alert",
-			(...args) => {
-				closeDialogue(`[data-dialogue="${args[1]}"]`);
-			}
+			dialogueCancelCallBack
 		);
 	}
 
@@ -259,7 +260,8 @@ function calculate(e) {
 
 	// show result
 	let count = 1;
-	let tabulateResult = `<table><thead><tr><th>No.</th><th>Total Units</th><th>Units Passed</th><th>Carryover Units</th><th>GP</th><th>GPA</th></tr></thead><tbody>`;
+	let tabulateResult = `<div class="flex justify-content-end m-b-10"><button style="padding: 2px 4px;" data-clear-result>Clear</button></div>`;
+	tabulateResult += `<table><thead><tr><th>No.</th><th>Total Units</th><th>Units Passed</th><th>Carryover Units</th><th>GP</th><th>GPA</th></tr></thead><tbody>`;
 	for (let eachCalculatedResult of calculatedResult) {
 		eachCalculatedResult = [count].concat(eachCalculatedResult);
 		tabulateResult += eachCalculatedResult.reduce((str, item, index) => {
@@ -284,3 +286,14 @@ on("submit", "[data-calculator-form]", calculate);
 // monitor each courses input chage
 // this will allow for updating persisted
 on("change", document, () => (coursesChanged = true), "[data-course] input");
+
+// clear result
+on(
+	"click",
+	document,
+	() => {
+		$("[data-show-calculation]").textContent =
+			"Calculated result will appear here...";
+	},
+	"[data-clear-result]"
+);

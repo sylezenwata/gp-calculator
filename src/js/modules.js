@@ -23,9 +23,7 @@ export function on(event, element, callback, optionalTarget, options) {
 	if (!element) {
 		return;
 	}
-	if (!optionalTarget) {
-		element.addEventListener(event, callback, options);
-	} else {
+	if (optionalTarget) {
 		element.addEventListener(
 			event,
 			(e) => {
@@ -35,6 +33,8 @@ export function on(event, element, callback, optionalTarget, options) {
 			},
 			options
 		);
+	} else {
+		element.addEventListener(event, callback, options);
 	}
 }
 
@@ -113,7 +113,13 @@ export function closeDialogue(id) {
  * @param {Function} callBackOk
  * @param {Function|null} callBackCancel
  */
-export function dialogue(info, type, callBackOk, callBackCancel = null) {
+export function dialogue(
+	info,
+	type,
+	callBackOk,
+	callBackCancel = null,
+	contextToAppend = "#root"
+) {
 	// validate type
 	type = type.toString().toLowerCase();
 	const validTypes = ["alert", "confirm", "prompt"];
@@ -128,7 +134,7 @@ export function dialogue(info, type, callBackOk, callBackCancel = null) {
 	const [infoSection, controlSection] = dialogueForm.children;
 
 	// modal id
-	const dialogueId = "dia-" + Math.round(Math.random() * 1000000);
+	const dialogueId = "dia" + Math.round(Math.random() * 1000000);
 	dialogueTemp.setAttribute("data-dialogue", dialogueId);
 
 	// pass text to first child of info section
@@ -153,7 +159,14 @@ export function dialogue(info, type, callBackOk, callBackCancel = null) {
 	// when form is submitted or ok is clicked
 	on("submit", dialogueForm, (e) => {
 		e.preventDefault();
-		callBackOk(e, dialogueId);
+		if (type === validTypes[2]) {
+			const promptValue = [e.target.elements].filter((e) =>
+				e.hasAttribute("data-dialogue-input")
+			)[0].value;
+			callBackOk(dialogueId, promptValue);
+		} else {
+			callBackOk(dialogueId);
+		}
 		noOverFlow();
 	});
 
@@ -163,7 +176,7 @@ export function dialogue(info, type, callBackOk, callBackCancel = null) {
 			"click",
 			controlSection.querySelector("[data-dialogue-cancel]"),
 			(e) => {
-				callBackCancel(e, dialogueId);
+				callBackCancel(dialogueId);
 				noOverFlow();
 			},
 			null,
@@ -174,7 +187,7 @@ export function dialogue(info, type, callBackOk, callBackCancel = null) {
 	}
 
 	// append dialogue to body
-	$("#root").append(dialogueTemp);
+	$(contextToAppend).append(dialogueTemp);
 
 	// set modal-content c-height
 	const modalContent = dialogueTemp.children[0];
@@ -246,14 +259,14 @@ export function forceScreenSize(width, height, force = false) {
 
 /**
  * function to calculate screen width and height to set
- * @param {Number} defWidth 
- * @param {Number} defHeight 
+ * @param {Number} defWidth
+ * @param {Number} defHeight
  * @returns {Array}
  */
 export function calcScreenSize(defWidth = 950, defHeight = 650) {
 	const { availavleWidth, availavleHeight } = window.screen;
-	let calcWidth = availavleWidth/1.25;
-	let calcHeight = availavleHeight/1.25;
+	let calcWidth = availavleWidth / 1.25;
+	let calcHeight = availavleHeight / 1.25;
 	if (calcWidth > defWidth) {
 		calcWidth = defWidth;
 	}
