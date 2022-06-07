@@ -72,9 +72,9 @@ on("click", "[data-add-courses]", () => {
 		"How many courses do you want to add?",
 		"prompt",
 		(...args) => {
-			const size = args[0];
+			const size = args[1];
 			generateCourses(size);
-			closeDialogue(`[data-dialogue="${args[1]}"]`);
+			closeDialogue(`[data-dialogue="${args[0]}"]`);
 		},
 		dialogueCancelCallBack
 	);

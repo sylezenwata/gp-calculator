@@ -160,7 +160,7 @@ export function dialogue(
 	on("submit", dialogueForm, (e) => {
 		e.preventDefault();
 		if (type === validTypes[2]) {
-			const promptValue = [e.target.elements].filter((e) =>
+			const promptValue = [...e.target.elements].filter((e) =>
 				e.hasAttribute("data-dialogue-input")
 			)[0].value;
 			callBackOk(dialogueId, promptValue);
