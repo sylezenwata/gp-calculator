@@ -5,7 +5,7 @@ import { $, calcScreenSize, forceScreenSize, on } from "./js/modules";
 
 // set app screen size
 const [ _width, _height ] = calcScreenSize();
-forceScreenSize(_width, _height);
+// forceScreenSize(_width, _height);
 
 // create page loader
 const loader = $("[data-loader]");

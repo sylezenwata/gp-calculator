@@ -259,11 +259,11 @@ function calculate(e) {
 	});
 
 	// show result
-	let count = 1;
+	// let count = 1;
 	let tabulateResult = `<div class="flex justify-content-end m-b-10"><button style="padding: 2px 4px;" data-clear-result>Clear</button></div>`;
-	tabulateResult += `<table><thead><tr><th>No.</th><th>Total Units</th><th>Units Passed</th><th>Carryover Units</th><th>GP</th><th>GPA</th></tr></thead><tbody>`;
+	tabulateResult += `<table><thead><tr><th>Total Units</th><th>Units Passed</th><th>Carryover Units</th><th>GP</th><th>GPA</th></tr></thead><tbody>`;
 	for (let eachCalculatedResult of calculatedResult) {
-		eachCalculatedResult = [count].concat(eachCalculatedResult);
+		// eachCalculatedResult = [count].concat(eachCalculatedResult);
 		tabulateResult += eachCalculatedResult.reduce((str, item, index) => {
 			if (index === 0) {
 				str = `<tr>`;
@@ -274,7 +274,7 @@ function calculate(e) {
 			}
 			return str;
 		}, ``);
-		count += 1;
+		// count += 1;
 	}
 	tabulateResult += `</tbody></table>`;
 	$("[data-show-calculation]").innerHTML = tabulateResult;
@@ -297,3 +297,35 @@ on(
 	},
 	"[data-clear-result]"
 );
+
+// updating app
+on("click", "[data-update-app]", (_e) => {
+	if (navigator.onLine) {
+		self.caches.keys().then((e) => {
+			if (e.some((x) => x === "gp-calculator-app-v1")) {
+				_e.target.disabled = true;
+				_e.target.textContent = "Updating...";
+				self.caches.delete("gp-calculator-app-v1").then((res) => {
+					if (res) {
+						navigator.serviceWorker.getRegistrations().then((_x) => {
+							let targetService = _x.filter(
+								(eachWorker) =>
+									eachWorker?.scope.indexOf(
+										new URL(window.location.href).hostname
+									) != -1
+							)[0];
+							targetService?.unregister();
+							window.location.reload();
+						});
+					}
+				});
+			}
+		});
+	} else {
+		dialogue(
+			"Oops, please connect to internet to run app update.",
+			"alert",
+			dialogueCancelCallBack
+		);
+	}
+});

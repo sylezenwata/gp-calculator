@@ -129,6 +129,10 @@ button {
 	background-color: #efefef;
 }
 
+button:disabled {
+	cursor: not-allowed;
+}
+
 /* extras */
 
 /* header */
