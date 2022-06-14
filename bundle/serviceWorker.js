@@ -3,6 +3,9 @@ const assets = [
 	"./",
 	"./index.html",
 	"./manifest.json",
+	"./main.js",
+	"./main.css",
+	"./src_js_app_js~chunk.js",
 ];
 
 self.addEventListener("install", (installEvent) => {
