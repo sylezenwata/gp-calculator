@@ -233,7 +233,7 @@ function calculate(e) {
 				d.push(i);
 			} else if ("-" === i.trim()) {
 				d.push("-");
-			} else {
+			} else if (/(AB|ab)/.test(i.trim())) {
 				d.push("0");
 			}
 			return d;
